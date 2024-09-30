@@ -37,7 +37,7 @@ class UserController {
   static signup = async (req, res) => {
     const { email, password, fullName, verificationCode } = req.body;
 
-    res.send(req.body);
+    res.send(email);
   };
 }
 

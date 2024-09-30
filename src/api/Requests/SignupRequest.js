@@ -6,7 +6,7 @@ const SignupRequest = [
   check("password").isString().withMessage("Password is required"),
   check("verificationCode")
     .isNumeric()
-    .withMessage("Verification code email is required"),
+    .withMessage("email verification code is required"),
 
   (req, res, next) => {
     const errors = validationResult(req);
