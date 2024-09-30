@@ -33,6 +33,12 @@ class UserController {
       res.status(500).json({ message: "Server error", error: error.message });
     }
   };
+
+  static signup = async (req, res) => {
+    const { email, password, fullName, verificationCode } = req.body;
+
+    res.send(req.body);
+  };
 }
 
 module.exports = UserController;
