@@ -115,8 +115,8 @@ class UserController {
         expiresIn: "30d",
       });
 
-      return res.status(201).json({
-        message: "Registration succesfull",
+      return res.status(200).json({
+        message: "Login succesfull",
         status: true,
         user: userObj,
         access_token: token,
