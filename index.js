@@ -3,19 +3,17 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const router = require("./src/api/Routes/Route");
-
-const app = express();
-
-const form = require("express-form-data");
-
-app.use(form.parse());
-
-app.use(express.json());
-
-app.use(cors());
-app.use("/api", router);
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
+const app = express();
+const form = require("express-form-data");
+const userAgent = require("./src/api/Middlewares/UserAgent");
+
+app.use(form.parse());
+app.use(express.json());
+app.use(cors());
+app.use(userAgent);
+app.use("/api", router);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 mongoose

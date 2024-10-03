@@ -3,6 +3,7 @@ const AuthController = require("../Controllers/AuthController");
 const sendSignupOtpRequest = require("../Requests/SendSignupOtpRequest");
 const SignupRequest = require("../Requests/SignupRequest");
 const loginRequest = require("../Requests/LoginRequest");
+const Auth = require("../Middlewares/Auth");
 // const upload = require("../Services/multer");
 
 const userRouter = Router();
@@ -15,5 +16,7 @@ userRouter.post(
 
 userRouter.post("/signup", SignupRequest, AuthController.signup);
 userRouter.post("/login", loginRequest, AuthController.login);
-
+userRouter.get("/user", Auth, (req, res) => {
+  res.send(req.user);
+});
 module.exports = userRouter;

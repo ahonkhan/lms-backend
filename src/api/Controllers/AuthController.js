@@ -4,6 +4,7 @@ const Hash = require("../../utils/Hash");
 const Mail = require("../Mail/Mail");
 const SignupOtp = require("../Models/SignupOtp");
 const User = require("../Models/User");
+const Jwt = require("../../utils/Jwt");
 
 class AuthController {
   /**
@@ -79,9 +80,7 @@ class AuthController {
       let userObj = user.toObject();
       delete userObj.password;
 
-      const token = jwt.sign(userObj, process.env.jwt_secret, {
-        expiresIn: 60 * 60 * 24 * 30,
-      });
+      const token = Jwt.generateToken(userObj, req.browser, req.ip, req.os);
 
       return res.status(201).json({
         message: "Registration succesfull",
@@ -111,9 +110,8 @@ class AuthController {
       }
       let userObj = user.toObject();
       delete userObj.password;
-      const token = jwt.sign(userObj, process.env.jwt_secret, {
-        expiresIn: "30d",
-      });
+
+      const token = Jwt.generateToken(userObj, req.browser, req.ip, req.os);
 
       return res.status(200).json({
         message: "Login succesfull",
