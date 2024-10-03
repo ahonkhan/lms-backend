@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const UserController = require("../Controllers/UserController");
+const AuthController = require("../Controllers/AuthController");
 const sendSignupOtpRequest = require("../Requests/SendSignupOtpRequest");
 const SignupRequest = require("../Requests/SignupRequest");
 const loginRequest = require("../Requests/LoginRequest");
@@ -10,10 +10,10 @@ const userRouter = Router();
 userRouter.post(
   "/signup-otp",
   sendSignupOtpRequest,
-  UserController.sendSignupOtpController
+  AuthController.sendSignupOtpController
 );
 
-userRouter.post("/signup", SignupRequest, UserController.signup);
-userRouter.post("/login", loginRequest, UserController.login);
+userRouter.post("/signup", SignupRequest, AuthController.signup);
+userRouter.post("/login", loginRequest, AuthController.login);
 
 module.exports = userRouter;

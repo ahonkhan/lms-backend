@@ -5,7 +5,7 @@ const Mail = require("../Mail/Mail");
 const SignupOtp = require("../Models/SignupOtp");
 const User = require("../Models/User");
 
-class UserController {
+class AuthController {
   /**
    * @param {import('express').Request} req
    * @param {import('express').Response} res
@@ -129,4 +129,4 @@ class UserController {
   };
 }
 
-module.exports = UserController;
+module.exports = AuthController;
