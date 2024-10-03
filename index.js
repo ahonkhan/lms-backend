@@ -12,9 +12,11 @@ app.use(form.parse());
 
 app.use(express.json());
 
-
 app.use(cors());
 app.use("/api", router);
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger.json");
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 mongoose
   .connect("mongodb://127.0.0.1:27017/lms-app")
