@@ -17,30 +17,33 @@ const userSchema = new Schema({
     type: String,
     lowercase: true,
     trim: true,
+    default: "",
   },
   password: {
     type: String,
     required: true,
+    select: false,
   },
   gendar: {
     type: String,
-    required: true,
+    default: "male",
   },
   currentAddress: {
     type: String,
-    required: true,
+    default: "",
   },
   phoneNumber: {
     type: String,
+    default: "",
   },
   dateOfBirth: {
     type: Date,
-    required: true,
+    default: "",
   },
-  isAdmin: {
-    type: Boolean,
+  role: {
+    type: String,
     required: true,
-    default: false,
+    default: "customer",
   },
   createdAt: {
     type: Date,
