@@ -132,7 +132,9 @@ class AuthController {
       const { email, base_url } = req.body;
       const user = await User.findOne({ email: email });
       if (!user) {
-        return res.status(404).json({ message: "User not found." });
+        return res
+          .status(404)
+          .json({ status: false, message: "User not found." });
       }
       const oldToken = await PasswordResetToken.findOne({ email: email });
       if (oldToken) {
@@ -152,9 +154,51 @@ class AuthController {
         html: `<a href="${base_url + "/" + token}">Reset your password</a>`,
       });
 
+      return res.status(200).json({
+        message: `Password reset link sent to ${email}`,
+        status: true,
+      });
+    } catch (error) {
       return res
-        .status(200)
-        .json({ message: `Password reset link sent to ${email}` });
+        .status(500)
+        .json({ message: "Server error", error: error.message });
+    }
+  };
+
+  static resetPassword = async (req, res) => {
+    try {
+      const { token, newPassword, retypePassword } = req.body;
+      if (newPassword !== retypePassword) {
+        return res
+          .status(409)
+          .json({ status: false, message: "Password not matched" });
+      }
+
+      const oldToken = await PasswordResetToken.findOne({ token: token });
+      if (!oldToken) {
+        return res
+          .status(404)
+          .json({ status: false, message: "Password reset lnik invalid" });
+      }
+      const currentTime = Date.now();
+      const expireTime = otpExpireTime * 1000;
+      const tokenCreatedTime = new Date(oldToken.createdAt).getTime();
+      if (currentTime - tokenCreatedTime > expireTime) {
+        return res
+          .status(409)
+          .json({ status: false, message: "Password reset lnik expired" });
+      }
+
+      // everything is okay now try to reset password
+      const user = await User.findOne({ email: oldToken.email }).select(
+        "+password"
+      );
+      const hashedPassword = await Hash.make(newPassword);
+      await user.updateOne({ password: hashedPassword });
+      return res.status(200).json({
+        status: true,
+        message: "Password reset successfull",
+      });
     } catch (error) {
       return res
         .status(500)
