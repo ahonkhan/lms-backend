@@ -28,7 +28,10 @@ userRouter.post(
   PasswordResetRequest,
   AuthController.resetPassword
 );
+
 userRouter.get("/user", Auth, (req, res) => {
   res.send(req.user);
 });
+userRouter.post("/logout", Auth, AuthController.logout);
+
 module.exports = userRouter;

@@ -7,6 +7,7 @@ const User = require("../Models/User");
 const Jwt = require("../../utils/Jwt");
 const PasswordResetToken = require("../Models/PasswordResetToken");
 const crypto = require("crypto");
+const BlacklistToken = require("../Models/BlacklistToken");
 class AuthController {
   /**
    * @param {import('express').Request} req
@@ -203,6 +204,19 @@ class AuthController {
       return res
         .status(500)
         .json({ message: "Server error", error: error.message });
+    }
+  };
+
+  static logout = async (req, res) => {
+    try {
+      const blacklist = new BlacklistToken({ token: req.token });
+      await blacklist.save();
+
+      return res
+        .send(200)
+        .json({ status: true, message: "Logout successful." });
+    } catch (error) {
+      return res.send(500).json({ status: false, message: error.message });
     }
   };
 }
