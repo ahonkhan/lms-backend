@@ -17,8 +17,10 @@ app.use("/api", router);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+const db_url = process.env.db_url;
+
 mongoose
-  .connect("mongodb://127.0.0.1:27017/lms-app")
+  .connect(db_url)
   .then(() => {
     app.listen(5000, () => {
       console.log("server is running at port @5000");
