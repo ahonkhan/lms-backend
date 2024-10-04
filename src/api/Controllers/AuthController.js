@@ -5,7 +5,8 @@ const Mail = require("../Mail/Mail");
 const SignupOtp = require("../Models/SignupOtp");
 const User = require("../Models/User");
 const Jwt = require("../../utils/Jwt");
-
+const PasswordResetToken = require("../Models/PasswordResetToken");
+const crypto = require("crypto");
 class AuthController {
   /**
    * @param {import('express').Request} req
@@ -119,6 +120,41 @@ class AuthController {
         user: userObj,
         access_token: token,
       });
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ message: "Server error", error: error.message });
+    }
+  };
+
+  static sendPasswordResetToken = async (req, res) => {
+    try {
+      const { email, base_url } = req.body;
+      const user = await User.findOne({ email: email });
+      if (!user) {
+        return res.status(404).json({ message: "User not found." });
+      }
+      const oldToken = await PasswordResetToken.findOne({ email: email });
+      if (oldToken) {
+        await oldToken.deleteOne();
+      }
+
+      const token = crypto.randomBytes(16).toString("hex");
+      const passwordResetToken = new PasswordResetToken({
+        email: email,
+        token: token,
+      });
+      await passwordResetToken.save();
+
+      const resetMail = new Mail();
+      await resetMail.send(email, {
+        subject: "Password reset link",
+        html: `<a href="${base_url + "/" + token}">Reset your password</a>`,
+      });
+
+      return res
+        .status(200)
+        .json({ message: `Password reset link sent to ${email}` });
     } catch (error) {
       return res
         .status(500)

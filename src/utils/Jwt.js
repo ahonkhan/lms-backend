@@ -16,11 +16,9 @@ class Jwt {
     return dynamicSecret;
   };
   static generateToken = (user, browser, ip, os) => {
-    const token = jwt.sign(
-      user,
-      this.dynamicSecret(browser, ip, os),
-      { expiresIn: "30d" } // Token expiry time
-    );
+    const token = jwt.sign(user, this.dynamicSecret(browser, ip, os), {
+      expiresIn: "30d",
+    });
 
     return token;
   };
