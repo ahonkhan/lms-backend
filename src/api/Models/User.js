@@ -24,7 +24,7 @@ const userSchema = new Schema({
     required: true,
     select: false,
   },
-  gendar: {
+  gender: {
     type: String,
     default: "male",
   },
@@ -37,7 +37,7 @@ const userSchema = new Schema({
     default: "",
   },
   dateOfBirth: {
-    type: Date,
+    type: String,
     default: "",
   },
   role: {

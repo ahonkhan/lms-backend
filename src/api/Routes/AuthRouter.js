@@ -8,32 +8,33 @@ const SendPasswordResetLinkRequest = require("../Requests/SendPasswordResetLinkR
 const PasswordResetRequest = require("../Requests/PasswordResetRequest");
 // const upload = require("../Services/multer");
 
-const userRouter = Router();
+const authRouter = Router();
 
-userRouter.post(
+authRouter.post(
   "/signup-otp",
   sendSignupOtpRequest,
   AuthController.sendSignupOtpController
 );
 
-userRouter.post("/signup", SignupRequest, AuthController.signup);
-userRouter.post("/login", loginRequest, AuthController.login);
-userRouter.post(
+authRouter.post("/signup", SignupRequest, AuthController.signup);
+authRouter.post("/login", loginRequest, AuthController.login);
+authRouter.post(
   "/password-reset-link",
   SendPasswordResetLinkRequest,
   AuthController.sendPasswordResetToken
 );
-userRouter.post(
+authRouter.post(
   "/password-reset",
   PasswordResetRequest,
   AuthController.resetPassword
 );
 
-userRouter.get("/info", Auth, (req, res) => {
+authRouter.get("/info", Auth, (req, res) => {
   return res
     .status(200)
     .json({ status: true, auth: true, user: req.user, role: req.user.role });
 });
-userRouter.post("/logout", Auth, AuthController.logout);
 
-module.exports = userRouter;
+authRouter.post("/logout", Auth, AuthController.logout);
+
+module.exports = authRouter;
