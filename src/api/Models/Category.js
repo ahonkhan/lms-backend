@@ -8,7 +8,7 @@ const categorySchema = new Schema({
     lowercase: true,
     trim: true,
   },
-  user_id: {
+  user: {
     type: Types.ObjectId,
     required: true,
     ref: "User",

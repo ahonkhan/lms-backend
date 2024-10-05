@@ -6,10 +6,14 @@ const router = require("./src/api/Routes/Route");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
 const app = express();
-const form = require("express-form-data");
 const userAgent = require("./src/api/Middlewares/UserAgent");
+// const upload = require("./src/config/upload");
+// app.use(formData.parse());
 
-app.use(form.parse());
+// app.use(upload.none());
+const path = require("path");
+app.use("/static", express.static(path.join(__dirname, "uploads")));
+
 app.use(express.json());
 app.use(cors());
 app.use(userAgent);
