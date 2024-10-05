@@ -14,7 +14,11 @@ class CourseController {
       batch,
       startDate,
     } = req.body;
-
+    if (!req.file) {
+      return res
+        .status(400)
+        .json({ status: false, message: "No file uploaded." });
+    }
     try {
       const oldCourse = await Course.findOne({ name: name, batch: batch });
       if (oldCourse) {

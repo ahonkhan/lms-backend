@@ -24,6 +24,7 @@ const uploadFile = (fieldName, allowedExt) => {
       cb(new Error("File type not allowed."), false);
     }
   };
+  
 
   return multer({ storage: storage, fileFilter: fileFilter }).single(fieldName);
 };
