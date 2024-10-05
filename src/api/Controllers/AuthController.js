@@ -213,10 +213,12 @@ class AuthController {
       await blacklist.save();
 
       return res
-        .send(200)
+        .status(200)
         .json({ status: true, message: "Logout successful." });
     } catch (error) {
-      return res.send(500).json({ status: false, message: error.message });
+      return res
+        .status(500)
+        .json({ status: false, message: error.message});
     }
   };
 }

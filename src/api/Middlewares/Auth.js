@@ -29,7 +29,7 @@ const Auth = async (req, res, next) => {
       if (!checkUser) {
         return res.status(403).json({ message: "Unauthorized", status: false });
       }
-      req.user = user;
+      req.user = checkUser;
       req.token = token;
       next();
     }

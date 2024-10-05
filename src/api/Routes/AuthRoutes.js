@@ -29,8 +29,10 @@ userRouter.post(
   AuthController.resetPassword
 );
 
-userRouter.get("/user", Auth, (req, res) => {
-  res.send(req.user);
+userRouter.get("/info", Auth, (req, res) => {
+  return res
+    .status(200)
+    .json({ status: true, auth: true, user: req.user, role: req.user.role });
 });
 userRouter.post("/logout", Auth, AuthController.logout);
 
