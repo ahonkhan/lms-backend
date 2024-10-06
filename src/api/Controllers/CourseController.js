@@ -27,7 +27,7 @@ class CourseController {
       }
 
       const checkCategory = await Category.findById(category);
-      if (!checkCategory) {
+      if (!checkCategory || checkCategory.isDeleted === true) {
         return res
           .status(404)
           .json({ status: false, message: "Category not found." });
@@ -91,7 +91,7 @@ class CourseController {
       }
       if (category) {
         const checkCategory = await Category.findById(category);
-        if (!checkCategory) {
+        if (!checkCategory || checkCategory.isDeleted) {
           return res
             .status(404)
             .json({ status: false, message: "Category not found." });

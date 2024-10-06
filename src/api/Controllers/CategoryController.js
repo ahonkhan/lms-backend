@@ -32,7 +32,10 @@ class CategoryController {
     const categoryId = req.params.id;
 
     try {
-      const oldCategory = await Category.findOne({ name: name });
+      const oldCategory = await Category.findOne({
+        name: name,
+        isDeleted: false,
+      });
       if (oldCategory) {
         return res
           .status(409)
