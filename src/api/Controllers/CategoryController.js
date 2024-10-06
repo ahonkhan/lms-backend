@@ -12,7 +12,7 @@ class CategoryController {
           .status(409)
           .json({ status: false, message: "Category already exists" });
       }
-      const category = new Category({ name: name, user_id: req.user._id });
+      const category = new Category({ name: name, user: req.user._id });
       await category.save();
       return res.status(201).json({
         status: true,

@@ -78,7 +78,7 @@ class CourseController {
     const courseId = req.params.courseId;
     try {
       const course = await Course.findById(courseId);
-      if (!course) {
+      if (!course || course.isDeleted === true) {
         return res
           .status(404)
           .json({ status: false, message: "Course not found." });
@@ -123,6 +123,33 @@ class CourseController {
         status: true,
         message: "Course updated successfully.",
         course: course,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: false,
+        message: "Server error.",
+        error: error.message,
+      });
+    }
+  };
+
+  static delete = async (req, res) => {
+    const courseId = req.params.courseId;
+    try {
+      const course = await Course.findById(courseId);
+      if (!course || course.isDeleted === true) {
+        return res
+          .status(404)
+          .json({ status: false, message: "Course not found." });
+      }
+
+      course.isDeleted = true;
+
+      await course.save();
+
+      return res.status(200).json({
+        status: true,
+        message: "Course deleted successfully.",
       });
     } catch (error) {
       return res.status(500).json({

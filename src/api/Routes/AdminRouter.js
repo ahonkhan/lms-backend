@@ -39,5 +39,6 @@ adminRouter.patch(
   CourseUpdateRequest,
   CourseController.update
 );
+adminRouter.delete("/course/:courseId", CourseController.delete);
 
 module.exports = adminRouter;
