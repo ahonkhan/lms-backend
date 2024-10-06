@@ -21,10 +21,9 @@ const uploadFile = (fieldName, allowedExt) => {
     if (allowedExt.includes(ext)) {
       cb(null, true);
     } else {
-      cb(new Error("File type not allowed."), false);
+      cb(null, false);
     }
   };
-  
 
   return multer({ storage: storage, fileFilter: fileFilter }).single(fieldName);
 };

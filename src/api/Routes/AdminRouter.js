@@ -6,6 +6,8 @@ const CourseController = require("../Controllers/CourseController");
 const CourseCreateRequest = require("../Requests/CourseCreateRequest");
 const upload = require("../../config/upload");
 const uploadFile = require("../../config/upload");
+const CourseUpdateRequest = require("../Requests/CourseUpdateRequest");
+const Course = require("../Models/Course");
 const adminRouter = Router();
 adminRouter.get("/category", CategoryController.getCategoryWithCourseCount);
 adminRouter.post("/category", CategoryCreateRequest, CategoryController.create);
@@ -23,6 +25,19 @@ adminRouter.post(
   uploadFile("previewImage", [".png", ".jpg", ".webp"]),
   CourseCreateRequest,
   CourseController.create
+);
+adminRouter.get("/course", async (req, res) => {
+  const courses = await Course.find({ isDeleted: false }).sort({
+    createdAt: -1,
+  });
+  return res.status(200).json({ status: true, courses: courses });
+});
+
+adminRouter.patch(
+  "/course/:courseId",
+  uploadFile("previewImage", [".png", ".jpg", ".webp"]),
+  CourseUpdateRequest,
+  CourseController.update
 );
 
 module.exports = adminRouter;
