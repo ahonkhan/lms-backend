@@ -19,7 +19,7 @@ class CourseModuleController {
       if (!checkCourse || checkCourse.isDeleted === true) {
         return res
           .status(404)
-          .json({ status: false, message: "Category not found." });
+          .json({ status: false, message: "Course not found." });
       }
 
       const courseModule = new CourseModule({

@@ -12,6 +12,11 @@ const CourseModuleController = require("../Controllers/CourseModuleController");
 const CourseModuleGetRequest = require("../Requests/course-module/CourseModuleGetRequest");
 const CourseModuleUpdateRequest = require("../Requests/course-module/CourseModuleUpdateRequest");
 const CourseModuleDeleteRequest = require("../Requests/course-module/CourseModuleDeleteRequest");
+const ModuleLessonCreateRequest = require("../Requests/module-lesson/ModuleLessonCreateRequest");
+const ModuleLessonController = require("../Controllers/ModuleLessonController");
+const ModuleLessonUpdateRequest = require("../Requests/module-lesson/ModuleLessonUpdateRequest");
+const ModuleLessonGetRequest = require("../Requests/module-lesson/ModuleLessonGetRequest");
+const ModuleLessonDeleteRequest = require("../Requests/module-lesson/ModuleLessonDeleteRequest");
 const adminRouter = Router();
 adminRouter.get("/category", CategoryController.getCategoryWithCourseCount);
 adminRouter.post("/category", CategoryCreateRequest, CategoryController.create);
@@ -66,6 +71,28 @@ adminRouter.delete(
   "/course-module/:moduleId",
   CourseModuleDeleteRequest,
   CourseModuleController.delete
+);
+
+// module lessons
+adminRouter.post(
+  "/module-lesson",
+  ModuleLessonCreateRequest,
+  ModuleLessonController.create
+);
+adminRouter.patch(
+  "/module-lesson/:lessonId",
+  ModuleLessonUpdateRequest,
+  ModuleLessonController.update
+);
+adminRouter.delete(
+  "/module-lesson/:lessonId",
+  ModuleLessonDeleteRequest,
+  ModuleLessonController.delete
+);
+adminRouter.get(
+  "/module-lesson",
+  ModuleLessonGetRequest,
+  ModuleLessonController.get
 );
 
 module.exports = adminRouter;
