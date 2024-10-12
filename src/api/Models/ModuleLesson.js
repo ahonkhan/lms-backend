@@ -17,6 +17,11 @@ const ModuleLessonSchema = new Schema(
       required: true,
       ref: "CourseModule",
     },
+    course: {
+      type: Types.ObjectId,
+      required: true,
+      ref: "Course",
+    },
     user: {
       type: Types.ObjectId,
       required: true,

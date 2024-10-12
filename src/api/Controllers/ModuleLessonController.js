@@ -19,6 +19,7 @@ class ModuleLessonController {
         name: name,
         description: description,
         video: video,
+        course: courseModule.course,
       });
 
       await moduleLesson.save();
