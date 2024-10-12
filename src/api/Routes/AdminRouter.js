@@ -25,6 +25,7 @@ adminRouter.patch(
   CategoryUpdateRequest,
   CategoryController.update
 );
+
 adminRouter.delete("/category/:id", CategoryController.delete);
 
 // courses routes
@@ -41,6 +42,9 @@ adminRouter.get("/course", async (req, res) => {
   });
   return res.status(200).json({ status: true, courses: courses });
 });
+
+
+
 
 adminRouter.patch(
   "/course/:courseId",

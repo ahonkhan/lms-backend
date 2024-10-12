@@ -134,6 +134,29 @@ class CategoryController {
       });
     }
   };
+
+  static getCategoryWithCourse = async (req, res) => {
+    try {
+      const categories = await Category.find({ isDeleted: false })
+        .sort({
+          createdAt: -1,
+        })
+        .populate({
+          path: "courses",
+          match: { isDeleted: false },
+          options: { sort: { createdAt: -1 } },
+        });
+      return res.status(200).json({
+        status: true,
+        categories: categories,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: false,
+        message: "An error occurred while fetching categories",
+      });
+    }
+  };
 }
 
 module.exports = CategoryController;

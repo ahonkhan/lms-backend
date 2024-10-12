@@ -2,6 +2,7 @@ const Category = require("../Models/Category");
 const Course = require("../Models/Course");
 const fs = require("fs");
 const path = require("path");
+const CourseModule = require("../Models/CourseModule");
 class CourseController {
   static create = async (req, res) => {
     const {
@@ -142,7 +143,8 @@ class CourseController {
     const courseId = req.params.courseId;
     try {
       const course = await Course.findById(courseId);
-      if (!course || course.isDeleted === true) {
+
+      if (!course || course.isDeleted) {
         return res
           .status(404)
           .json({ status: false, message: "Course not found." });
@@ -161,6 +163,32 @@ class CourseController {
         status: true,
         message: "Course deleted successfully.",
       });
+    } catch (error) {
+      return res.status(500).json({
+        status: false,
+        message: "Server error.",
+        error: error.message,
+      });
+    }
+  };
+
+  static courseDetails = async (req, res) => {
+    const courseId = req.params.courseId;
+    try {
+      const course = await Course.findById(courseId);
+      if (!course || course.isDeleted) {
+        return res
+          .status(404)
+          .json({ status: false, message: "Course not found." });
+      }
+      const modules = await CourseModule.find({
+        course: courseId,
+        isDeleted: false,
+      });
+
+      return res
+        .status(200)
+        .json({ status: true, course: course, modules: modules });
     } catch (error) {
       return res.status(500).json({
         status: false,
