@@ -3,6 +3,7 @@ const Course = require("../Models/Course");
 const fs = require("fs");
 const path = require("path");
 const CourseModule = require("../Models/CourseModule");
+const Order = require("../Models/Order");
 class CourseController {
   static create = async (req, res) => {
     const {
@@ -189,6 +190,46 @@ class CourseController {
       return res
         .status(200)
         .json({ status: true, course: course, modules: modules });
+    } catch (error) {
+      return res.status(500).json({
+        status: false,
+        message: "Server error.",
+        error: error.message,
+      });
+    }
+  };
+
+  static getEnrolledCourse = async (req, res) => {
+    const { course } = req.params;
+    // check course
+    try {
+      const selectedCourse = await Course.findById(course);
+      if (!selectedCourse || selectedCourse.isDeleted) {
+        return res
+          .status(404)
+          .json({ status: false, message: "Course not found." });
+      }
+
+      // check course enrolled or not
+      const order = await Order.findOne({ user: req.user._id, course: course });
+      if (!order) {
+        return res
+          .status(403)
+          .json({ status: false, message: "You have not yet enrolled." });
+      }
+
+      // now return all resources
+      const courseModules = await CourseModule.find({
+        course: course,
+        isDeleted: false,
+      }).populate({
+        path: "lessons",
+        match: { isDeleted: false },
+      });
+
+      return res
+        .status(200)
+        .json({ status: true, course: selectedCourse, modules: courseModules });
     } catch (error) {
       return res.status(500).json({
         status: false,
