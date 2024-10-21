@@ -17,7 +17,16 @@ const ModuleLessonController = require("../Controllers/ModuleLessonController");
 const ModuleLessonUpdateRequest = require("../Requests/module-lesson/ModuleLessonUpdateRequest");
 const ModuleLessonGetRequest = require("../Requests/module-lesson/ModuleLessonGetRequest");
 const ModuleLessonDeleteRequest = require("../Requests/module-lesson/ModuleLessonDeleteRequest");
+const GetSingleCategoryRequest = require("../Requests/GetSingleCategoryRequest");
+const GetSingleCourseRequest = require("../Requests/GetSingleCourseRequest");
+const GetSingleCourseModuleRequest = require("../Requests/GetSingleCourseModuleRequest");
+const GetSingleModuleLessonRequest = require("../Requests/GetSingleModuleLessonRequest");
 const adminRouter = Router();
+adminRouter.get(
+  "/category/:categoryID",
+  GetSingleCategoryRequest,
+  CategoryController.getSingleCategory
+);
 adminRouter.get("/category", CategoryController.getCategoryWithCourseCount);
 adminRouter.post("/category", CategoryCreateRequest, CategoryController.create);
 adminRouter.patch(
@@ -36,15 +45,21 @@ adminRouter.post(
   CourseCreateRequest,
   CourseController.create
 );
+
+adminRouter.get(
+  "/course/:courseID",
+  GetSingleCourseRequest,
+  CourseController.getSingleCourse
+);
 adminRouter.get("/course", async (req, res) => {
-  const courses = await Course.find({ isDeleted: false }).sort({
+  const courses = await Course.find({
+    isDeleted: false,
+    user: req.user._id,
+  }).sort({
     createdAt: -1,
   });
   return res.status(200).json({ status: true, courses: courses });
 });
-
-
-
 
 adminRouter.patch(
   "/course/:courseId",
@@ -60,6 +75,12 @@ adminRouter.post(
   "/course-module",
   CourseModuleCreateRequest,
   CourseModuleController.create
+);
+
+adminRouter.get(
+  "/course-module/:moduleID",
+  GetSingleCourseModuleRequest,
+  CourseModuleController.getSingleCourseModule
 );
 adminRouter.get(
   "/course-module",
@@ -92,6 +113,11 @@ adminRouter.delete(
   "/module-lesson/:lessonId",
   ModuleLessonDeleteRequest,
   ModuleLessonController.delete
+);
+adminRouter.get(
+  "/module-lesson/:lessonID",
+  GetSingleModuleLessonRequest,
+  ModuleLessonController.getSingleModuleLesson
 );
 adminRouter.get(
   "/module-lesson",

@@ -150,6 +150,25 @@ class CourseModuleController {
       });
     }
   };
+
+  static getSingleCourseModule = async (req, res) => {
+    const { moduleID } = req.params;
+    try {
+      const module = await CourseModule.findById(moduleID);
+      if (!module || module.isDeleted) {
+        return res
+          .status(404)
+          .json({ status: true, message: "Course module not found" });
+      }
+
+      return res.status(200).json({ status: true, module: module });
+    } catch (error) {
+      return res.status(500).json({
+        status: false,
+        message: "Server error.",
+      });
+    }
+  };
 }
 
 module.exports = CourseModuleController;

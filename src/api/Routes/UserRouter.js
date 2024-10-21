@@ -12,7 +12,6 @@ const userRouter = Router();
 
 userRouter.patch("/edit", Auth, ProfileEditRequest, UserController.edit);
 
-// enroll course
 userRouter.post("/enroll", Auth, EnrollRequest, EnrollController.enroll);
 userRouter.post(
   "/enroll/verify/:token",
@@ -27,5 +26,7 @@ userRouter.get(
   GetEnrolledCourseRequest,
   CourseController.getEnrolledCourse
 );
+
+userRouter.get("/user-details", Auth, UserController.getSingleUser);
 
 module.exports = userRouter;

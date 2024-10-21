@@ -122,6 +122,24 @@ class ModuleLessonController {
       });
     }
   };
+  static getSingleModuleLesson = async (req, res) => {
+    const { lessonID } = req.params;
+    try {
+      const lesson = await ModuleLesson.findById(lessonID);
+      if (!lesson || lesson.isDeleted) {
+        return res
+          .status(404)
+          .json({ status: true, message: "Module lesson not found" });
+      }
+
+      return res.status(200).json({ status: true, lesson: lesson });
+    } catch (error) {
+      return res.status(500).json({
+        status: false,
+        message: "Server error.",
+      });
+    }
+  };
 }
 
 module.exports = ModuleLessonController;

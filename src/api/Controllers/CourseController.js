@@ -238,6 +238,25 @@ class CourseController {
       });
     }
   };
+
+  static getSingleCourse = async (req, res) => {
+    const { courseID } = req.params;
+    try {
+      const course = await Course.findById(courseID);
+      if (!course || course.isDeleted) {
+        return res
+          .status(404)
+          .json({ status: true, message: "Course not found" });
+      }
+
+      return res.status(200).json({ status: true, course: course });
+    } catch (error) {
+      return res.status(500).json({
+        status: false,
+        message: "Server error.",
+      });
+    }
+  };
 }
 
 module.exports = CourseController;

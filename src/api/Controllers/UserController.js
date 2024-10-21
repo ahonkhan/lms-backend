@@ -45,6 +45,10 @@ class UserController {
       });
     }
   };
+
+  static getSingleUser = async (req, res) => {
+    return res.status(200).json({ status: true, user: req.user });
+  };
 }
 
 module.exports = UserController;

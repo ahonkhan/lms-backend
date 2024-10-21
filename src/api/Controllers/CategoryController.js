@@ -157,6 +157,25 @@ class CategoryController {
       });
     }
   };
+
+  static getSingleCategory = async (req, res) => {
+    const { categoryID } = req.params;
+    try {
+      const category = await Category.findById(categoryID);
+      if (!category || category.isDeleted) {
+        return res
+          .status(404)
+          .json({ status: true, message: "Category not found" });
+      }
+
+      return res.status(200).json({ status: true, category: category });
+    } catch (error) {
+      return res.status(500).json({
+        status: false,
+        message: "Server error.",
+      });
+    }
+  };
 }
 
 module.exports = CategoryController;
