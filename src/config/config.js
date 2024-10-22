@@ -1,3 +1,3 @@
-const otpExpireTime = 60 * 5;
+const otpExpireTime = 60 * 2;
 
 module.exports = { otpExpireTime };
