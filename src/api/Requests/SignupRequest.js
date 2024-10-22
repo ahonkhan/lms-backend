@@ -2,9 +2,9 @@ const { check } = require("express-validator");
 const Request = require("../Middlewares/Request");
 
 const SignupRequest = [
-  check("fullName").isString().withMessage("Full name is required"),
+  check("fullName").notEmpty().withMessage("Full name is required").isString(),
   check("email").isEmail().withMessage("Valid email is required"),
-  check("password").isString().withMessage("Password is required"),
+  check("password").notEmpty().withMessage("Password is required").isString(),
   check("verificationCode")
     .isNumeric()
     .withMessage("email verification code is required"),
