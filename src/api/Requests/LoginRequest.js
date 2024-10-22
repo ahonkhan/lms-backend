@@ -3,7 +3,7 @@ const { check } = require("express-validator");
 
 const loginRequest = [
   check("email").isEmail().withMessage("Valid email is required"),
-  check("password").isString().withMessage("Password is required"),
+  check("password").notEmpty().withMessage("Password is required").isString(),
 
   Request.validator,
 ];
