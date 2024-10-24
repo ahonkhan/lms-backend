@@ -12,13 +12,7 @@ const path = require("path");
 app.use("/static", express.static(path.join(__dirname, "uploads")));
 
 app.use(express.json());
-app.use(
-  cors({
-    origin: "*", // Update with your frontend URL
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-    credentials: true, // Allow cookies to be sent
-  })
-);
+app.use(cors());
 app.use(userAgent);
 app.use("/api", router);
 
