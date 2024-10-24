@@ -7,9 +7,10 @@ class CategoryController {
     // check is exits or not
     try {
       const oldCategory = await Category.findOne({
-        name: name,
+        name: name.trim().toLowerCase(),
+        isDeleted: false,
       });
-      if (oldCategory && oldCategory.isDeleted === false) {
+      if (oldCategory) {
         return res
           .status(409)
           .json({ status: false, message: "Category already exists" });
