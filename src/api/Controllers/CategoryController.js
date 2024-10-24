@@ -94,12 +94,6 @@ class CategoryController {
           .status(404)
           .json({ status: false, message: "Category not found." });
       }
-      if (category.user !== req.user._id) {
-        return res.status(401).json({
-          status: false,
-          message: "You have no permission to perform the operation",
-        });
-      }
       category.isDeleted = true;
 
       await category.save();

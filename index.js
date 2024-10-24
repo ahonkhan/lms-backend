@@ -7,10 +7,7 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
 const app = express();
 const userAgent = require("./src/api/Middlewares/UserAgent");
-// const upload = require("./src/config/upload");
-// app.use(formData.parse());
 
-// app.use(upload.none());
 const path = require("path");
 app.use("/static", express.static(path.join(__dirname, "uploads")));
 
