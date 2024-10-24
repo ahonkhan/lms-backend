@@ -101,6 +101,7 @@ class CategoryController {
       return res.status(200).json({
         status: true,
         message: "Category deleted successfully",
+        id: category._id,
       });
     } catch (error) {
       console.log(error);
