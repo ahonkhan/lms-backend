@@ -6,7 +6,10 @@ class CategoryController {
     const { name } = req.body;
     // check is exits or not
     try {
-      const oldCategory = await Category.findOne({ name: name });
+      const oldCategory = await Category.findOne({
+        name: name,
+        isDeleted: false,
+      });
       if (oldCategory) {
         return res
           .status(409)
