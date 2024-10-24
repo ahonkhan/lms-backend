@@ -3,22 +3,22 @@ const Request = require("../Middlewares/Request");
 
 const CourseCreateRequest = [
   check("name")
-    .isString()
-    .withMessage("Course name is required")
     .notEmpty()
-    .withMessage("Course name cannot be empty"),
+    .withMessage("Course name cannot be empty")
+    .isString()
+    .withMessage("Course name is required"),
 
   check("description")
-    .isString()
-    .withMessage("Description is required")
     .notEmpty()
-    .withMessage("Description cannot be empty"),
+    .withMessage("Description cannot be empty")
+    .isString()
+    .withMessage("Description is required"),
 
   check("price")
-    .isNumeric()
-    .withMessage("Price must be a number")
     .notEmpty()
     .withMessage("Price is required")
+    .isNumeric()
+    .withMessage("Price must be a number")
     .custom((value) => {
       if (value < 0) {
         throw new Error("Price must be a positive number");
