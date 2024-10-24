@@ -9,10 +9,13 @@ const app = express();
 const userAgent = require("./src/api/Middlewares/UserAgent");
 
 const path = require("path");
+const fileUpload = require("express-fileupload");
+app.use(express.json());
+
+
+app.use(cors());
 app.use("/static", express.static(path.join(__dirname, "uploads")));
 
-app.use(express.json());
-app.use(cors());
 app.use(userAgent);
 app.use("/api", router);
 
