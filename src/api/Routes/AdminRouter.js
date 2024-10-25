@@ -54,9 +54,14 @@ adminRouter.get(
 adminRouter.get("/course", async (req, res) => {
   const courses = await Course.find({
     isDeleted: false,
-  }).sort({
-    createdAt: -1,
-  });
+  })
+    .sort({
+      createdAt: -1,
+    })
+    .populate({
+      path: "courseModules",
+      match: { isDeleted: false },
+    });
   return res.status(200).json({ status: true, courses: courses });
 });
 
