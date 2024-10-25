@@ -41,7 +41,7 @@ adminRouter.delete("/category/:id", CategoryController.delete);
 
 adminRouter.post(
   "/course",
-  uploadFile("previewImage", [".png", ".jpg", ".webp"]),
+  uploadFile("previewImage", [".png", ".jpg", ".webp", ".jpeg"]),
   CourseCreateRequest,
   CourseController.create
 );
