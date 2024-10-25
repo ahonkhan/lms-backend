@@ -64,10 +64,11 @@ courseSchema.virtual("courseModules", {
   foreignField: "course",
   justOne: false,
 });
+
 courseSchema.virtual("addedBy", {
   ref: "User",
-  localField: "_id",
-  foreignField: "user",
+  localField: "user",
+  foreignField: "_id",
   justOne: true,
 });
 
