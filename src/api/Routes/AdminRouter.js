@@ -54,7 +54,6 @@ adminRouter.get(
 adminRouter.get("/course", async (req, res) => {
   const courses = await Course.find({
     isDeleted: false,
-    user: req.user._id,
   }).sort({
     createdAt: -1,
   });

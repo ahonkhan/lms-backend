@@ -85,12 +85,7 @@ class CourseController {
           .status(404)
           .json({ status: false, message: "Course not found." });
       }
-      if (course.user !== req.user._id) {
-        return res.status(401).json({
-          status: false,
-          message: "You have no permission to perform the operation",
-        });
-      }
+
       if (category) {
         const checkCategory = await Category.findById(category);
         if (!checkCategory || checkCategory.isDeleted) {
@@ -150,12 +145,7 @@ class CourseController {
           .status(404)
           .json({ status: false, message: "Course not found." });
       }
-      if (course.user !== req.user._id) {
-        return res.status(401).json({
-          status: false,
-          message: "You have no permission to perform the operation",
-        });
-      }
+
       course.isDeleted = true;
 
       await course.save();
