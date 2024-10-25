@@ -61,7 +61,8 @@ adminRouter.get("/course", async (req, res) => {
     .populate({
       path: "courseModules",
       match: { isDeleted: false },
-    });
+    })
+    .populate("addedBy");
   return res.status(200).json({ status: true, courses: courses });
 });
 
