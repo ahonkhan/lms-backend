@@ -55,14 +55,14 @@ adminRouter.get("/course", async (req, res) => {
   const courses = await Course.find({
     isDeleted: false,
     $expr: {
-      $eq: ["$category.isDeleted", false],
+      $eq: ["$courseCategory.isDeleted", false],
     },
   })
     .sort({
       createdAt: -1,
     })
     .populate({
-      path: "category",
+      path: "courseCategory",
       match: { isDeleted: false },
     })
     .populate({

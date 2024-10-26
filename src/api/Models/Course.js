@@ -75,7 +75,7 @@ courseSchema.virtual("addedBy", {
   foreignField: "_id",
   justOne: true,
 });
-courseSchema.virtual("category", {
+courseSchema.virtual("courseCategory", {
   ref: "Category",
   localField: "category",
   foreignField: "_id",
