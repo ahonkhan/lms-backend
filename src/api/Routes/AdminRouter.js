@@ -52,24 +52,58 @@ adminRouter.get(
   CourseController.getSingleCourse
 );
 adminRouter.get("/course", async (req, res) => {
-  const courses = await Course.find({
-    isDeleted: false,
-    $expr: {
-      $eq: ["$category.isDeleted", false],
+  const courses = await Course.aggregate([
+    {
+      $match: {
+        isDeleted: false,
+      },
     },
-  })
-    .sort({
-      createdAt: -1,
-    })
-    .populate({
-      path: "category",
-      match: { isDeleted: false },
-    })
-    .populate({
-      path: "courseModules",
-      match: { isDeleted: false },
-    })
-    .populate("addedBy");
+    {
+      $lookup: {
+        from: "categories", // the name of the Category collection
+        localField: "category",
+        foreignField: "_id",
+        as: "category",
+      },
+    },
+    {
+      $unwind: "$category",
+    },
+    {
+      $match: {
+        "category.isDeleted": false,
+      },
+    },
+    {
+      $sort: {
+        createdAt: -1,
+      },
+    },
+    {
+      $lookup: {
+        from: "coursemodules", // the name of the CourseModule collection
+        localField: "_id",
+        foreignField: "course",
+        as: "courseModules",
+      },
+    },
+    {
+      $match: {
+        "courseModules.isDeleted": false,
+      },
+    },
+    {
+      $lookup: {
+        from: "users", // the name of the User collection
+        localField: "user",
+        foreignField: "_id",
+        as: "addedBy",
+      },
+    },
+    {
+      $unwind: "$addedBy",
+    },
+  ]);
   return res.status(200).json({ status: true, courses: courses });
 });
 
