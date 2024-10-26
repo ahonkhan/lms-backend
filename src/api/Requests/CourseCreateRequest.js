@@ -46,6 +46,13 @@ const CourseCreateRequest = [
     .withMessage(
       "Start date must be a valid date format (YYYY-MM-DD or ISO 8601 format)"
     ),
+  check("previewImage").custom((value, { req }) => {
+    // Check if a file has been uploaded
+    if (req.file?.fieldname !== "previewImage") {
+      throw new Error("Preview image is required");
+    }
+    return true;
+  }),
 
   Request.validator,
 ];

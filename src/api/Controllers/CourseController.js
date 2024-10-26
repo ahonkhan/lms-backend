@@ -4,6 +4,11 @@ const fs = require("fs");
 const path = require("path");
 const CourseModule = require("../Models/CourseModule");
 const Order = require("../Models/Order");
+const {
+  uploadFileToCloud,
+  deleteFileFromCloud,
+} = require("../../config/cloudenery");
+const cloudinary = require("cloudinary").v2;
 class CourseController {
   static create = async (req, res) => {
     const {
@@ -15,11 +20,12 @@ class CourseController {
       batch,
       startDate,
     } = req.body;
-    if (!req.file) {
-      return res
-        .status(400)
-        .json({ status: false, message: "No file uploaded." });
-    }
+    // if (!req.file) {
+    //   return res
+    //     .status(400)
+    //     .json({ status: false, message: "No file uploaded." });
+    // }
+
     try {
       const oldCourse = await Course.findOne({ name: name, batch: batch });
       if (oldCourse) {
@@ -34,7 +40,11 @@ class CourseController {
           .status(404)
           .json({ status: false, message: "Category not found." });
       }
-
+      const result = await uploadFileToCloud(req.file.path, {
+        folder: "images", // Optional: specify a folder
+      });
+      const fileUrl = result.secure_url;
+      const publicId = result.public_id;
       const course = new Course({
         name: name,
         description: description,
@@ -42,8 +52,9 @@ class CourseController {
         category: category,
         batch: batch,
         user: req.user._id,
-        previewImage: req.file.filename,
+        previewImage: fileUrl,
         startDate: startDate,
+        publicId: publicId,
       });
 
       if (previewVideo) {
@@ -105,18 +116,15 @@ class CourseController {
       if (status) course.status = status;
 
       if (req.file) {
-        // remove old file
-        const oldImagePath = path.join(
-          __dirname,
-          "../../../uploads",
-          course.previewImage
-        );
+        await deleteFileFromCloud(course.publicId);
+        const result = await uploadFileToCloud(req.file.path, {
+          folder: "images", // Optional: specify a folder
+        });
+        const fileUrl = result.secure_url;
+        const publicId = result.public_id;
 
-        // Check if the file exists and delete it
-        if (fs.existsSync(oldImagePath)) {
-          fs.unlinkSync(oldImagePath);
-        }
-        course.previewImage = req.file.filename;
+        course.previewImage = fileUrl;
+        course.publicId = publicId;
       }
 
       await course.save();
@@ -137,6 +145,7 @@ class CourseController {
 
   static delete = async (req, res) => {
     const courseId = req.params.courseId;
+
     try {
       const course = await Course.findById(courseId);
 
@@ -147,9 +156,8 @@ class CourseController {
       }
 
       course.isDeleted = true;
-
       await course.save();
-
+      await deleteFileFromCloud(course.publicId);
       return res.status(200).json({
         status: true,
         message: "Course deleted successfully.",

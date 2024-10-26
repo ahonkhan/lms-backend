@@ -4,7 +4,6 @@ const CategoryCreateRequest = require("../Requests/CategoryCreateRequest");
 const CategoryUpdateRequest = require("../Requests/CategoryUpdateRequest");
 const CourseController = require("../Controllers/CourseController");
 const CourseCreateRequest = require("../Requests/CourseCreateRequest");
-const uploadFile = require("../../config/upload");
 const CourseUpdateRequest = require("../Requests/CourseUpdateRequest");
 const Course = require("../Models/Course");
 const CourseModuleCreateRequest = require("../Requests/course-module/CourseModuleCreateRequest");
@@ -21,6 +20,7 @@ const GetSingleCategoryRequest = require("../Requests/GetSingleCategoryRequest")
 const GetSingleCourseRequest = require("../Requests/GetSingleCourseRequest");
 const GetSingleCourseModuleRequest = require("../Requests/GetSingleCourseModuleRequest");
 const GetSingleModuleLessonRequest = require("../Requests/GetSingleModuleLessonRequest");
+const uploadFile = require("../../config/uploadFile");
 const adminRouter = Router();
 adminRouter.get(
   "/category/:categoryID",
