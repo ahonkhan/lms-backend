@@ -52,59 +52,21 @@ adminRouter.get(
   CourseController.getSingleCourse
 );
 adminRouter.get("/course", async (req, res) => {
-  const courses = await Course.aggregate([
-    {
-      $match: {
-        isDeleted: false,
-      },
-    },
-    {
-      $lookup: {
-        from: "Category", // the name of the Category collection
-        localField: "category",
-        foreignField: "_id",
-        as: "category",
-      },
-    },
-    {
-      $unwind: "$category",
-    },
-    {
-      $match: {
-        "category.isDeleted": false,
-      },
-    },
-    {
-      $sort: {
-        createdAt: -1,
-      },
-    },
-    {
-      $lookup: {
-        from: "CourseModule", // the name of the CourseModule collection
-        localField: "_id",
-        foreignField: "course",
-        as: "courseModules",
-      },
-    },
-    {
-      $match: {
-        "courseModules.isDeleted": false,
-      },
-    },
-    {
-      $lookup: {
-        from: "User", // the name of the User collection
-        localField: "user",
-        foreignField: "_id",
-        as: "addedBy",
-      },
-    },
-    {
-      $unwind: "$addedBy",
-    },
-  ]);
-  return res.status(200).json({ status: true, courses: courses });
+  const courses = await Course.find({ isDeleted: false })
+    .sort({ createdAt: -1 })
+    .populate({
+      path: "category",
+      match: { isDeleted: false }, // This will filter the populated categories
+    })
+    .populate({
+      path: "courseModules",
+      match: { isDeleted: false },
+    })
+    .populate("addedBy");
+
+  // Filter out courses without valid categories (where category is null)
+  const filteredCourses = courses.filter((course) => course.category !== null);
+  return res.status(200).json({ status: true, courses: filteredCourses });
 });
 
 adminRouter.patch(
