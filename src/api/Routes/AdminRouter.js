@@ -59,6 +59,10 @@ adminRouter.get("/course", async (req, res) => {
       createdAt: -1,
     })
     .populate({
+      path: "category",
+      match: { isDeleted: false },
+    })
+    .populate({
       path: "courseModules",
       match: { isDeleted: false },
     })
