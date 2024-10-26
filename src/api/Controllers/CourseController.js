@@ -147,12 +147,17 @@ class CourseController {
     const courseId = req.params.courseId;
 
     try {
-      const course = await Course.findById(courseId);
+      const course = await Course.findById(courseId).populate("category");
 
       if (!course || course.isDeleted) {
         return res
           .status(404)
           .json({ status: false, message: "Course not found." });
+      }
+      if (course.category.isDeleted) {
+        return res
+          .status(404)
+          .json({ status: false, message: "Course may be removed." });
       }
 
       course.isDeleted = true;
