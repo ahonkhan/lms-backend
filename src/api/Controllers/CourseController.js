@@ -161,6 +161,7 @@ class CourseController {
       return res.status(200).json({
         status: true,
         message: "Course deleted successfully.",
+        id: course._id,
       });
     } catch (error) {
       return res.status(500).json({
