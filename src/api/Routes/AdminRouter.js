@@ -60,7 +60,7 @@ adminRouter.get("/course", async (req, res) => {
     },
     {
       $lookup: {
-        from: "categories", // the name of the Category collection
+        from: "Category", // the name of the Category collection
         localField: "category",
         foreignField: "_id",
         as: "category",
@@ -81,7 +81,7 @@ adminRouter.get("/course", async (req, res) => {
     },
     {
       $lookup: {
-        from: "coursemodules", // the name of the CourseModule collection
+        from: "CourseModule", // the name of the CourseModule collection
         localField: "_id",
         foreignField: "course",
         as: "courseModules",
@@ -94,7 +94,7 @@ adminRouter.get("/course", async (req, res) => {
     },
     {
       $lookup: {
-        from: "users", // the name of the User collection
+        from: "User", // the name of the User collection
         localField: "user",
         foreignField: "_id",
         as: "addedBy",
