@@ -46,29 +46,6 @@ adminRouter.post(
   CourseController.create
 );
 
-adminRouter.get(
-  "/course/:courseID",
-  GetSingleCourseRequest,
-  CourseController.getSingleCourse
-);
-adminRouter.get("/course", async (req, res) => {
-  const courses = await Course.find({ isDeleted: false })
-    .sort({ createdAt: -1 })
-    .populate({
-      path: "category",
-      match: { isDeleted: false }, // This will filter the populated categories
-    })
-    .populate({
-      path: "courseModules",
-      match: { isDeleted: false },
-    })
-    .populate("addedBy");
-
-  // Filter out courses without valid categories (where category is null)
-  const filteredCourses = courses.filter((course) => course.category !== null);
-  return res.status(200).json({ status: true, courses: filteredCourses });
-});
-
 adminRouter.patch(
   "/course/:courseId",
   uploadFile("previewImage", [".png", ".jpg", ".webp"]),
@@ -89,11 +66,6 @@ adminRouter.get(
   "/course-module/:moduleID",
   GetSingleCourseModuleRequest,
   CourseModuleController.getSingleCourseModule
-);
-adminRouter.get(
-  "/course-module",
-  CourseModuleGetRequest,
-  CourseModuleController.get
 );
 adminRouter.patch(
   "/course-module/:moduleId",
