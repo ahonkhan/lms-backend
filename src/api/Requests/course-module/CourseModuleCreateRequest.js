@@ -20,8 +20,6 @@ const CourseModuleCreateRequest = [
     .isMongoId()
     .withMessage("Invalid course ID"),
 
-  check("moduleId").isMongoId().withMessage("Invalid module ID"),
-
   check("startDate")
     .exists()
     .withMessage("Start date is required")
