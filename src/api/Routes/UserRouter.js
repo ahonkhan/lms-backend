@@ -7,6 +7,8 @@ const EnrollController = require("../Controllers/EnrollController");
 const VerifyPaymentRequest = require("../Requests/enroll/VerifyPaymentRequest");
 const GetEnrolledCourseRequest = require("../Requests/enroll/GetEnrolledCourseRequest");
 const CourseController = require("../Controllers/CourseController");
+const ModuleLessonGetRequest = require("../Requests/module-lesson/ModuleLessonGetRequest");
+const ModuleLessonController = require("../Controllers/ModuleLessonController");
 
 const userRouter = Router();
 
@@ -28,5 +30,9 @@ userRouter.get(
 );
 
 userRouter.get("/user-details", Auth, UserController.getSingleUser);
-
+userRouter.get(
+  "/module-lesson",
+  ModuleLessonGetRequest,
+  ModuleLessonController.get
+);
 module.exports = userRouter;

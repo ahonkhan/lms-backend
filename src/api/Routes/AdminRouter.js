@@ -99,10 +99,5 @@ adminRouter.get(
   GetSingleModuleLessonRequest,
   ModuleLessonController.getSingleModuleLesson
 );
-adminRouter.get(
-  "/module-lesson",
-  ModuleLessonGetRequest,
-  ModuleLessonController.get
-);
 
 module.exports = adminRouter;

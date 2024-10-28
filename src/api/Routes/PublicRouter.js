@@ -6,6 +6,8 @@ const Course = require("../Models/Course");
 const GetSingleCourseRequest = require("../Requests/GetSingleCourseRequest");
 const CourseModuleController = require("../Controllers/CourseModuleController");
 const CourseModuleGetRequest = require("../Requests/course-module/CourseModuleGetRequest");
+const ModuleLessonGetRequest = require("../Requests/module-lesson/ModuleLessonGetRequest");
+const ModuleLessonController = require("../Controllers/ModuleLessonController");
 
 const publicRouter = Router();
 
@@ -44,4 +46,5 @@ publicRouter.get(
   CourseModuleGetRequest,
   CourseModuleController.get
 );
+
 module.exports = publicRouter;

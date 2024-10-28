@@ -1,5 +1,6 @@
 const CourseModule = require("../Models/CourseModule");
 const ModuleLesson = require("../Models/ModuleLesson");
+const Order = require("../Models/Order");
 
 class ModuleLessonController {
   static create = async (req, res) => {
@@ -97,19 +98,36 @@ class ModuleLessonController {
     const moduleId = req.query.module;
     try {
       const courseModule = await CourseModule.findById(moduleId);
-      if (
-        !courseModule ||
-        courseModule.user.toString() !== req.user._id.toString()
-      ) {
+      if (!courseModule) {
         return res
           .status(404)
           .json({ status: false, message: "Course Module not found." });
       }
 
-      const moduleLessons = await ModuleLesson.find({
-        courseModule: moduleId,
-        isDeleted: false,
-      });
+      let moduleLessons = [];
+      if (req.user.role === "admin") {
+        moduleLessons = await ModuleLesson.find({
+          courseModule: moduleId,
+          isDeleted: false,
+        });
+      } else {
+        const checkOrder = await Order.findOne({
+          user: req.user._id,
+          course: courseModule.course,
+          status: "success",
+        });
+        if (checkOrder) {
+          moduleLessons = await ModuleLesson.find({
+            courseModule: moduleId,
+            isDeleted: false,
+          });
+        } else {
+          moduleLessons = await ModuleLesson.find({
+            courseModule: moduleId,
+            isDeleted: false,
+          }).select("-video");
+        }
+      }
       return res.status(200).json({
         status: true,
         moduleLessons: moduleLessons,
