@@ -59,8 +59,24 @@ class CourseModuleController {
       const courseModules = await CourseModule.find({
         course: course,
         isDeleted: false,
+      }).populate({
+        path: "lessons",
+        match: { isDeleted: false },
+        select: "-video", // Exclude the 'video' field from the lessons
       });
-      return res.status(200).json({ status: true, modules: courseModules });
+
+      // Map through the courseModules to include additional fields
+      const enhancedCourseModules = courseModules.map((module) => {
+        const lessons = module.lessons || []; // Get the lessons or an empty array if none
+        return {
+          ...module.toObject(), // Convert to plain object
+          firstLessonId: lessons.length > 0 ? lessons[0]._id : null, // First lesson ID or null if no lessons
+          totalLessonCount: lessons.length, // Total lessons count
+        };
+      });
+      return res
+        .status(200)
+        .json({ status: true, modules: enhancedCourseModules });
     } catch (error) {
       return res
         .status(500)

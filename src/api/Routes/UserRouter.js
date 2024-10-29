@@ -10,6 +10,8 @@ const CourseController = require("../Controllers/CourseController");
 const ModuleLessonGetRequest = require("../Requests/module-lesson/ModuleLessonGetRequest");
 const ModuleLessonController = require("../Controllers/ModuleLessonController");
 const GetSingleModuleLessonRequest = require("../Requests/GetSingleModuleLessonRequest");
+const CourseModuleGetRequest = require("../Requests/course-module/CourseModuleGetRequest");
+const CourseModuleController = require("../Controllers/CourseModuleController");
 
 const userRouter = Router();
 
@@ -43,5 +45,9 @@ userRouter.get(
   ModuleLessonGetRequest,
   ModuleLessonController.get
 );
-
+userRouter.get(
+  "/course-module",
+  CourseModuleGetRequest,
+  CourseModuleController.get
+);
 module.exports = userRouter;

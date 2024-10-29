@@ -41,10 +41,4 @@ publicRouter.get("/course", async (req, res) => {
   return res.status(200).json({ status: true, courses: filteredCourses });
 });
 
-publicRouter.get(
-  "/course-module",
-  CourseModuleGetRequest,
-  CourseModuleController.get
-);
-
 module.exports = publicRouter;
