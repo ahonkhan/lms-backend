@@ -224,9 +224,11 @@ class CourseController {
           course: course,
         });
         if (!order) {
-          return res
-            .status(403)
-            .json({ status: false, message: "You have not yet enrolled." });
+          return res.status(403).json({
+            status: false,
+            message: "You have not yet enrolled.",
+            course: selectedCourse._id,
+          });
         }
       }
 
