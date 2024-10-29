@@ -218,11 +218,16 @@ class CourseController {
       }
 
       // check course enrolled or not
-      const order = await Order.findOne({ user: req.user._id, course: course });
-      if (!order) {
-        return res
-          .status(403)
-          .json({ status: false, message: "You have not yet enrolled." });
+      if (req.user?.role === "customer") {
+        const order = await Order.findOne({
+          user: req.user._id,
+          course: course,
+        });
+        if (!order) {
+          return res
+            .status(403)
+            .json({ status: false, message: "You have not yet enrolled." });
+        }
       }
 
       // now return all resources
