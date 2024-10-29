@@ -1,5 +1,6 @@
 const Course = require("../Models/Course");
 const CourseModule = require("../Models/CourseModule");
+const Order = require("../Models/Order");
 
 class CourseModuleController {
   static create = async (req, res) => {
@@ -74,9 +75,21 @@ class CourseModuleController {
           totalLessonCount: lessons.length, // Total lessons count
         };
       });
-      return res
-        .status(200)
-        .json({ status: true, modules: enhancedCourseModules });
+
+      // check enrolled
+      let enrolled = false;
+      const order = await Order.find({
+        user: req.user._id,
+        course: checkCourse._id,
+      });
+      if (order) {
+        enrolled = true;
+      }
+      return res.status(200).json({
+        status: true,
+        modules: enhancedCourseModules,
+        enrolled: enrolled,
+      });
     } catch (error) {
       return res
         .status(500)

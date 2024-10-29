@@ -48,6 +48,7 @@ userRouter.get(
 );
 userRouter.get(
   "/course-module",
+  Auth,
   CourseModuleGetRequest,
   CourseModuleController.get
 );
