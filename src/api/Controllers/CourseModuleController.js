@@ -78,9 +78,10 @@ class CourseModuleController {
 
       // check enrolled
       let enrolled = false;
-      const order = await Order.find({
+      const order = await Order.findOne({
         user: req.user._id,
         course: checkCourse._id,
+        status: "success",
       });
       if (order) {
         enrolled = true;
