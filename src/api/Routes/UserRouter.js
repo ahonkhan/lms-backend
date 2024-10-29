@@ -35,6 +35,7 @@ userRouter.get(
 userRouter.get("/user-details", Auth, UserController.getSingleUser);
 userRouter.get(
   "/module-lesson/:lessonID",
+  Auth,
   GetSingleModuleLessonRequest,
   ModuleLessonController.getSingleModuleLesson
 );

@@ -155,11 +155,11 @@ class ModuleLessonController {
           user: req.user._id,
           course: lesson.course,
         });
-        // if (!order) {
-        return res
-          .status(403)
-          .json({ status: false, message: "You have not yet enrolled." });
-        // }
+        if (!order) {
+          return res
+            .status(403)
+            .json({ status: false, message: "You have not yet enrolled." });
+        }
       }
 
       return res.status(200).json({ status: true, lesson: lesson });
