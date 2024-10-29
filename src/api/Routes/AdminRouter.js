@@ -94,10 +94,5 @@ adminRouter.delete(
   ModuleLessonDeleteRequest,
   ModuleLessonController.delete
 );
-adminRouter.get(
-  "/module-lesson/:lessonID",
-  GetSingleModuleLessonRequest,
-  ModuleLessonController.getSingleModuleLesson
-);
 
 module.exports = adminRouter;

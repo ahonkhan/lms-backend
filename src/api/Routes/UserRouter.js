@@ -9,6 +9,7 @@ const GetEnrolledCourseRequest = require("../Requests/enroll/GetEnrolledCourseRe
 const CourseController = require("../Controllers/CourseController");
 const ModuleLessonGetRequest = require("../Requests/module-lesson/ModuleLessonGetRequest");
 const ModuleLessonController = require("../Controllers/ModuleLessonController");
+const GetSingleModuleLessonRequest = require("../Requests/GetSingleModuleLessonRequest");
 
 const userRouter = Router();
 
@@ -31,9 +32,16 @@ userRouter.get(
 
 userRouter.get("/user-details", Auth, UserController.getSingleUser);
 userRouter.get(
+  "/module-lesson/:lessonID",
+  GetSingleModuleLessonRequest,
+  ModuleLessonController.getSingleModuleLesson
+);
+
+userRouter.get(
   "/module-lesson",
   Auth,
   ModuleLessonGetRequest,
   ModuleLessonController.get
 );
+
 module.exports = userRouter;
