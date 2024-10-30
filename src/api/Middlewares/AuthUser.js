@@ -10,10 +10,12 @@ const AuthUser = async (req, res, next) => {
     token,
     Jwt.dynamicSecret(req.browser, req.ip, req.os),
     async (err, user) => {
-      const checkUser = await User.findById(user._id);
-      if (checkUser) {
-        req.user = checkUser;
-        req.token = token;
+      if (user) {
+        const checkUser = await User.findById(user._id);
+        if (checkUser) {
+          req.user = checkUser;
+          req.token = token;
+        }
       }
       next();
     }

@@ -8,6 +8,7 @@ const {
   uploadFileToCloud,
   deleteFileFromCloud,
 } = require("../../config/cloudenery");
+const ModuleLesson = require("../Models/ModuleLesson");
 const cloudinary = require("cloudinary").v2;
 class CourseController {
   static create = async (req, res) => {
@@ -271,7 +272,9 @@ class CourseController {
         course: courseID,
         isDeleted: false,
       }).select("_id");
+
       let enrolled = false;
+
       if (req.user) {
         const order = await Order.findOne({
           user: req.user._id,
