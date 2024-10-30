@@ -278,6 +278,9 @@ class CourseController {
       const courses = await Course.find({
         category: category,
         isDeleted: false,
+      }).populate({
+        path: "courseModules",
+        match: { isDeleted: false },
       });
 
       return res.status(200).json({ status: true, courses: courses });
