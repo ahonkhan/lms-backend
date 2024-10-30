@@ -143,6 +143,10 @@ class CategoryController {
           path: "courses",
           match: { isDeleted: false },
           options: { sort: { createdAt: -1 } },
+          populate: {
+            path: "courseModules",
+            match: { isDeleted: false },
+          },
         });
       return res.status(200).json({
         status: true,
