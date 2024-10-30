@@ -275,7 +275,10 @@ class CourseController {
   static getCoursesByCategory = async (req, res) => {
     const { category } = req.params;
     try {
-      const courses = Course.find({ category: category, isDeleted: false });
+      const courses = await Course.find({
+        category: category,
+        isDeleted: false,
+      });
 
       return res.status(200).json({ status: true, courses: courses });
     } catch (error) {
