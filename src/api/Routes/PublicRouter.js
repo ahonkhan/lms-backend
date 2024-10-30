@@ -9,6 +9,7 @@ const CourseModuleGetRequest = require("../Requests/course-module/CourseModuleGe
 const ModuleLessonGetRequest = require("../Requests/module-lesson/ModuleLessonGetRequest");
 const ModuleLessonController = require("../Controllers/ModuleLessonController");
 const GetCoursesWithCategoryRequest = require("../Requests/category/GetCoursesWithCategoryRequest");
+const AuthUser = require("../Middlewares/AuthUser");
 
 const publicRouter = Router();
 
@@ -22,6 +23,7 @@ publicRouter.get(
 
 publicRouter.get(
   "/course/:courseID",
+  AuthUser,
   GetSingleCourseRequest,
   CourseController.getSingleCourse
 );

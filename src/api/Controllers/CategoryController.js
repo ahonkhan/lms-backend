@@ -146,6 +146,7 @@ class CategoryController {
           populate: {
             path: "courseModules",
             match: { isDeleted: false },
+            select: "_id",
           },
         });
       return res.status(200).json({

@@ -262,8 +262,32 @@ class CourseController {
           .status(404)
           .json({ status: true, message: "Course not found" });
       }
+      const modules = await CourseModule.find({
+        course: courseID,
+        isDeleted: false,
+      });
 
-      return res.status(200).json({ status: true, course: course });
+      const lessons = await ModuleLesson.find({
+        course: courseID,
+        isDeleted: false,
+      }).select("_id");
+      let enrolled = false;
+      if (req.user) {
+        const order = await Order.findOne({
+          user: req.user._id,
+          course: courseID,
+        });
+        if (order) {
+          enrolled = true;
+        }
+      }
+      return res.status(200).json({
+        status: true,
+        course: course,
+        modules: modules,
+        lessons: lessons,
+        enrolled: enrolled,
+      });
     } catch (error) {
       return res.status(500).json({
         status: false,
