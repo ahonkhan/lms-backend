@@ -8,10 +8,12 @@ const CourseModuleController = require("../Controllers/CourseModuleController");
 const CourseModuleGetRequest = require("../Requests/course-module/CourseModuleGetRequest");
 const ModuleLessonGetRequest = require("../Requests/module-lesson/ModuleLessonGetRequest");
 const ModuleLessonController = require("../Controllers/ModuleLessonController");
+const GetCoursesWithCategoryRequest = require("../Requests/category/GetCoursesWithCategoryRequest");
 
 const publicRouter = Router();
 
 publicRouter.get("/category", CategoryController.getCategoryWithCourse);
+
 publicRouter.get(
   "/course-details/:courseId",
   CourseDetailsGetRequest,
@@ -23,6 +25,12 @@ publicRouter.get(
   GetSingleCourseRequest,
   CourseController.getSingleCourse
 );
+publicRouter.get(
+  "/course-by-category/:category",
+  GetCoursesWithCategoryRequest,
+  CourseController.getCoursesByCategory
+);
+
 publicRouter.get("/course", async (req, res) => {
   const courses = await Course.find({ isDeleted: false })
     .sort({ createdAt: -1 })
