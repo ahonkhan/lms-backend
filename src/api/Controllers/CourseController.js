@@ -328,6 +328,10 @@ class CourseController {
       }).populate({
         path: "course",
         match: { isDeleted: false },
+        populate: {
+          path: "courseModules",
+          match: { isDeleted: false },
+        },
       });
 
       res.status(200).json({ orders: orders });
