@@ -18,9 +18,13 @@ class EnrollController {
       });
 
       if (enrolledCourse) {
-        return res
-          .status(409)
-          .json({ status: false, message: "Already enrolled." });
+        if (enrolledCourse.status === "success") {
+          return res
+            .status(409)
+            .json({ status: false, message: "Already enrolled." });
+        } else {
+          await enrolledCourse.deleteOne();
+        }
       }
 
       const startDate = new Date(selectedCourse.startDate).getTime();
