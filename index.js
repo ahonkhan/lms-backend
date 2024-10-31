@@ -8,6 +8,7 @@ const swaggerDocument = require("./swagger.json");
 const app = express();
 const userAgent = require("./src/api/Middlewares/UserAgent");
 const path = require("path");
+const EnrollController = require("./src/api/Controllers/EnrollController");
 app.use(express.json());
 
 app.use(cors());
@@ -15,6 +16,7 @@ app.use("/static", express.static(path.join(__dirname, "uploads")));
 
 app.use(userAgent);
 app.use("/api", router);
+app.post("/payment/init", EnrollController.redirect);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

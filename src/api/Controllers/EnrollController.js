@@ -38,14 +38,14 @@ class EnrollController {
       // proceed enrollment
 
       const transactionId = new ObjectId().toString();
-
+      const backendUrl = `${req.protocol}://${req.get("host")}`;
       const data = {
         total_amount: selectedCourse.price,
         product_amount: selectedCourse.price,
         currency: "BDT",
         tran_id: transactionId, // use unique tran_id for each api call
         product_category: "course",
-        success_url: `${successUrl}?token=${transactionId}`,
+        success_url: `${backendUrl}/payment/init?redirect${successUrl}&token=${transactionId}`,
         fail_url: cancelUrl,
         cancel_url: cancelUrl,
         payment_method: paymentMethod,
@@ -91,6 +91,10 @@ class EnrollController {
         error: error.message,
       });
     }
+  };
+  static redirect = async (req, res) => {
+    const { redirect, token } = req.query;
+    res.redirect(`${redirect}?token=${token}`);
   };
 
   static verify = async (req, res) => {
