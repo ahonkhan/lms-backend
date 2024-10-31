@@ -25,6 +25,8 @@ userRouter.get(
   EnrollController.verify
 );
 
+userRouter.get("/my-courses", Auth, CourseController.myEnrolledCourse);
+
 userRouter.get(
   "/course/:course",
   Auth,

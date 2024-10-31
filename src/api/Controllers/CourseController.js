@@ -319,6 +319,20 @@ class CourseController {
       });
     }
   };
+
+  static myEnrolledCourse = async (req, res) => {
+    try {
+      const orders = await Order.find({
+        user: req.user._id,
+        status: "success",
+      }).populate({
+        path: "course",
+        match: { isDeleted: false },
+      });
+
+      res.status(200).json({ orders: orders });
+    } catch (error) {}
+  };
 }
 
 module.exports = CourseController;
