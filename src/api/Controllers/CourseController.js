@@ -330,6 +330,7 @@ class CourseController {
             populate: {
               path: "courseModules",
               match: { isDeleted: false },
+              select: "_id",
             },
           })
           .populate({
