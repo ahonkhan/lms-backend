@@ -18,7 +18,7 @@ const userRouter = Router();
 userRouter.patch("/edit", Auth, ProfileEditRequest, UserController.edit);
 
 userRouter.post("/enroll", Auth, EnrollRequest, EnrollController.enroll);
-userRouter.post(
+userRouter.get(
   "/enroll/verify/:token",
   Auth,
   VerifyPaymentRequest,
