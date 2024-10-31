@@ -322,19 +322,35 @@ class CourseController {
 
   static myEnrolledCourse = async (req, res) => {
     try {
-      const orders = await Order.find({
-        user: req.user._id,
-        status: "success",
-      }).populate({
-        path: "course",
-        match: { isDeleted: false },
-        populate: {
-          path: "courseModules",
+      if (req.user.role !== "customer") {
+        const orders = await Order.find().populate({
+          path: "course",
           match: { isDeleted: false },
-        },
-      });
+          populate: {
+            path: "courseModules",
+            match: { isDeleted: false },
+          },
+          populate: {
+            path: "user",
+          },
+        });
 
-      res.status(200).json({ orders: orders });
+        return res.status(200).json({ orders: orders });
+      } else {
+        const orders = await Order.find({
+          user: req.user._id,
+          status: "success",
+        }).populate({
+          path: "course",
+          match: { isDeleted: false },
+          populate: {
+            path: "courseModules",
+            match: { isDeleted: false },
+          },
+        });
+
+        return res.status(200).json({ orders: orders });
+      }
     } catch (error) {}
   };
 }
