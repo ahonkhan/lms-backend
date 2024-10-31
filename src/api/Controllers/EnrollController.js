@@ -52,7 +52,7 @@ class EnrollController {
         product_name: selectedCourse.name,
         cus_name: req.user.name,
         cus_email: req.user.email,
-        cus_phone: req.user.phoneNumber,
+        cus_phone: req.user.phoneNumber || "01313386709",
         emi_option: 0,
         shipping_method: "NO",
         product_profile: "non-physical-goods",
