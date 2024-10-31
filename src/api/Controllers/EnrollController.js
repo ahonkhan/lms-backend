@@ -109,8 +109,8 @@ class EnrollController {
       }
       if (order.status === "success") {
         return res
-          .status(409)
-          .json({ status: false, message: "Already enrolled." });
+          .status(200)
+          .json({ status: false, message: "Already enrolled.", order: order });
       }
 
       order.status = "success";
