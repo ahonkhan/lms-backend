@@ -16,7 +16,7 @@ app.use("/static", express.static(path.join(__dirname, "uploads")));
 
 app.use(userAgent);
 app.use("/api", router);
-app.post("/payment/init", EnrollController.redirect);
+app.post("/payment/success", EnrollController.redirect);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

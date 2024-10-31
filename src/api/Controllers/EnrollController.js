@@ -45,7 +45,7 @@ class EnrollController {
         currency: "BDT",
         tran_id: transactionId, // use unique tran_id for each api call
         product_category: "course",
-        success_url: `${backendUrl}/payment/init?redirect${successUrl}&token=${transactionId}`,
+        success_url: `${backendUrl}/payment/success?redirect=${successUrl}&token=${transactionId}`,
         fail_url: cancelUrl,
         cancel_url: cancelUrl,
         payment_method: paymentMethod,
