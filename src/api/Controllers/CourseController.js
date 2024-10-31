@@ -334,6 +334,7 @@ class CourseController {
           })
           .populate({
             path: "user",
+            select: "fullName",
           });
 
         return res.status(200).json({ orders: orders });
@@ -347,6 +348,7 @@ class CourseController {
           populate: {
             path: "courseModules",
             match: { isDeleted: false },
+            select: "_id",
           },
         });
 
