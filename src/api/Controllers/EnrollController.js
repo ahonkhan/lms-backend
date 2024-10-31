@@ -78,7 +78,11 @@ class EnrollController {
           await order.save();
         }
 
-        return res.status(201).json({ status: true, url: GatewayPageURL });
+        return res.status(201).json({
+          status: true,
+          url: GatewayPageURL,
+          apiResponse: apiResponse,
+        });
       });
     } catch (error) {
       return res.status(500).json({
