@@ -279,6 +279,7 @@ class CourseController {
         const order = await Order.findOne({
           user: req.user._id,
           course: courseID,
+          status: "success",
         });
         if (order) {
           enrolled = true;
