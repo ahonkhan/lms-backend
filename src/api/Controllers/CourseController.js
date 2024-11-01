@@ -308,7 +308,7 @@ class CourseController {
       const courses = await Course.find({
         category: category,
         isDeleted: false,
-        endDate: { $gt: currentDate.toISOString().split("T")[0] },
+        startDate: { $gt: currentDate.toISOString().split("T")[0] },
       }).populate({
         path: "courseModules",
         match: { isDeleted: false },
