@@ -302,10 +302,13 @@ class CourseController {
 
   static getCoursesByCategory = async (req, res) => {
     const { category } = req.params;
+    const currentDate = new Date();
+
     try {
       const courses = await Course.find({
         category: category,
         isDeleted: false,
+        endDate: { $gt: currentDate.toISOString().split("T")[0] },
       }).populate({
         path: "courseModules",
         match: { isDeleted: false },
