@@ -134,6 +134,7 @@ class CategoryController {
   };
 
   static getCategoryWithCourse = async (req, res) => {
+    const currentDate = new Date();
     try {
       const categories = await Category.find({ isDeleted: false })
         .sort({
@@ -141,7 +142,10 @@ class CategoryController {
         })
         .populate({
           path: "courses",
-          match: { isDeleted: false },
+          match: {
+            isDeleted: false,
+            startDate: { $gt: currentDate.toISOString().split("T")[0] },
+          },
           options: { sort: { createdAt: -1 } },
           populate: {
             path: "courseModules",
