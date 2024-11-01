@@ -34,7 +34,12 @@ publicRouter.get(
 );
 
 publicRouter.get("/course", async (req, res) => {
-  const courses = await Course.find({ isDeleted: false })
+  const currentDate = new Date();
+
+  const courses = await Course.find({
+    isDeleted: false,
+    startDate: { $gt: currentDate.toISOString().split("T")[0] },
+  })
     .sort({ createdAt: -1 })
     .populate({
       path: "category",

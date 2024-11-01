@@ -116,6 +116,7 @@ class CategoryController {
   };
 
   static getCategoryWithCourseCount = async (req, res) => {
+
     try {
       const categories = await Category.find({ isDeleted: false }).sort({
         createdAt: -1,
