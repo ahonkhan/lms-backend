@@ -95,4 +95,24 @@ adminRouter.delete(
   ModuleLessonController.delete
 );
 
+adminRouter.get("/course", async (req, res) => {
+  const courses = await Course.find({
+    isDeleted: false,
+  })
+    .sort({ createdAt: -1 })
+    .populate({
+      path: "category",
+      match: { isDeleted: false }, // This will filter the populated categories
+    })
+    .populate({
+      path: "courseModules",
+      match: { isDeleted: false },
+    })
+    .populate("addedBy");
+
+  // Filter out courses without valid categories (where category is null)
+  const filteredCourses = courses.filter((course) => course.category !== null);
+  return res.status(200).json({ status: true, courses: filteredCourses });
+});
+
 module.exports = adminRouter;
