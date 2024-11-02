@@ -49,7 +49,7 @@ userRouter.get(
   ModuleLessonController.get
 );
 userRouter.get(
-  "/course-module",
+  "/get-all-course-module/:course",
   Auth,
   CourseModuleGetRequest,
   CourseModuleController.get
