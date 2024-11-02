@@ -48,7 +48,7 @@ class CourseModuleController {
   };
 
   static get = async (req, res) => {
-    const { course } = req.query;
+    const { course } = req.params;
     try {
       const checkCourse = await Course.findById(course);
       if (!checkCourse || checkCourse.isDeleted === true) {
