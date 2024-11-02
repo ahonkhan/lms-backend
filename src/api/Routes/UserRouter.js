@@ -43,7 +43,7 @@ userRouter.get(
 );
 
 userRouter.get(
-  "/module-lesson",
+  "/get-all-module-lesson/:module",
   Auth,
   ModuleLessonGetRequest,
   ModuleLessonController.get

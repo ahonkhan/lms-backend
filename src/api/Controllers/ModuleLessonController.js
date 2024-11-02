@@ -95,7 +95,7 @@ class ModuleLessonController {
     }
   };
   static get = async (req, res) => {
-    const moduleId = req.query.module;
+    const moduleId = req.params.module;
     try {
       const courseModule = await CourseModule.findById(moduleId);
       if (!courseModule) {
