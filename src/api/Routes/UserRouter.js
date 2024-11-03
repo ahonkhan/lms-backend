@@ -16,7 +16,7 @@ const uploadFile = require("../../config/uploadFile");
 
 const userRouter = Router();
 
-userRouter.patch(
+userRouter.put(
   "/edit",
   Auth,
   uploadFile("profilePicture", [".png", ".jpg", ".webp", ".jpeg"]),
