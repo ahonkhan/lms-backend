@@ -12,10 +12,17 @@ const ModuleLessonController = require("../Controllers/ModuleLessonController");
 const GetSingleModuleLessonRequest = require("../Requests/GetSingleModuleLessonRequest");
 const CourseModuleGetRequest = require("../Requests/course-module/CourseModuleGetRequest");
 const CourseModuleController = require("../Controllers/CourseModuleController");
+const uploadFile = require("../../config/uploadFile");
 
 const userRouter = Router();
 
-userRouter.patch("/edit", Auth, ProfileEditRequest, UserController.edit);
+userRouter.patch(
+  "/edit",
+  Auth,
+  uploadFile("profilePicture", [".png", ".jpg", ".webp", ".jpeg"]),
+  ProfileEditRequest,
+  UserController.edit
+);
 
 userRouter.post("/enroll", Auth, EnrollRequest, EnrollController.enroll);
 userRouter.get(

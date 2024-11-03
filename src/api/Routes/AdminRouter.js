@@ -48,7 +48,7 @@ adminRouter.post(
 
 adminRouter.patch(
   "/course/:courseId",
-  uploadFile("previewImage", [".png", ".jpg", ".webp"]),
+  uploadFile("previewImage", [".png", ".jpg", ".webp", ".jpeg"]),
   CourseUpdateRequest,
   CourseController.update
 );

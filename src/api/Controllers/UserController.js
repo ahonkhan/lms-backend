@@ -1,3 +1,7 @@
+const {
+  deleteFileFromCloud,
+  uploadFileToCloud,
+} = require("../../config/cloudenery");
 const User = require("../Models/User");
 
 class UserController {
@@ -29,6 +33,19 @@ class UserController {
       }
       if (secondaryEmail) {
         user.secondaryEmail = secondaryEmail;
+      }
+      if (req.file) {
+        if (user.publicId) {
+          await deleteFileFromCloud(user.publicId);
+        }
+        const result = await uploadFileToCloud(req.file.path, {
+          folder: "images", // Optional: specify a folder
+        });
+        const fileUrl = result.secure_url;
+        const publicId = result.public_id;
+
+        user.profilePicture = fileUrl;
+        user.publicId = publicId;
       }
 
       await user.save();

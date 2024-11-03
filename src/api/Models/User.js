@@ -24,6 +24,14 @@ const userSchema = new Schema({
     required: true,
     select: false,
   },
+  profilePicture: {
+    type: String,
+    default: null,
+  },
+  publicId: {
+    type: String,
+    default: null,
+  },
   gender: {
     type: String,
     default: "male",
