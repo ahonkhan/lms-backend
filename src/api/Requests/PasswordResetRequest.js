@@ -2,9 +2,21 @@ const Request = require("../Middlewares/Request");
 const { check } = require("express-validator");
 
 const PasswordResetRequest = [
-  check("token").isString().withMessage("Token is required."),
-  check("newPassword").isString().withMessage("newPassword is required."),
-  check("retypePassword").isString().withMessage("retypePassword is required."),
+  check("token")
+    .notEmpty()
+    .withMessage("Token is required.")
+    .isString()
+    .withMessage("Must be string"),
+  check("newPassword")
+    .notEmpty()
+    .withMessage("newPassword is required.")
+    .isString()
+    .withMessage("Must be string"),
+  check("retypePassword")
+    .notEmpty()
+    .withMessage("retypePassword is required.")
+    .isString()
+    .withMessage("Must be string"),
 
   Request.validator,
 ];

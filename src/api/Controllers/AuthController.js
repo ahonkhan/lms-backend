@@ -196,6 +196,7 @@ class AuthController {
       );
       const hashedPassword = await Hash.make(newPassword);
       await user.updateOne({ password: hashedPassword });
+      await oldToken.deleteOne();
       return res.status(200).json({
         status: true,
         message: "Password reset successfull",
@@ -216,9 +217,7 @@ class AuthController {
         .status(200)
         .json({ status: true, message: "Logout successful." });
     } catch (error) {
-      return res
-        .status(500)
-        .json({ status: false, message: error.message});
+      return res.status(500).json({ status: false, message: error.message });
     }
   };
 }
