@@ -61,4 +61,10 @@ userRouter.get(
   CourseModuleGetRequest,
   CourseModuleController.get
 );
+
+userRouter.post(
+  "/mark-as-completed/:currentLesson",
+  Auth,
+  ModuleLessonController.markCompleted
+);
 module.exports = userRouter;

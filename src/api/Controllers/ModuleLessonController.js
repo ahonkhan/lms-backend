@@ -186,6 +186,48 @@ class ModuleLessonController {
       });
     }
   };
+
+  static markCompleted = async (req, res) => {
+    const { currentLesson } = req.params;
+    try {
+      const lesson = await ModuleLesson.findById(currentLesson);
+      if (!lesson || lesson.isDeleted) {
+        return res
+          .status(404)
+          .json({ status: true, message: "Module lesson not found" });
+      }
+
+      if (req.user?.role === "customer") {
+        const order = await Order.findOne({
+          user: req.user._id,
+          course: lesson.course,
+        });
+        if (!order) {
+          return res.status(403).json({
+            status: false,
+            message: "You have not yet enrolled.",
+            course: lesson.course,
+          });
+        }
+      }
+
+      const newLessonProgress = new LessonProgress({
+        moduleLesson: currentLesson,
+        user: req.user._id,
+        status: "completed",
+      });
+      await newLessonProgress.save();
+
+
+
+      return res.status(200).json({ status: true, lesson: lesson });
+    } catch (error) {
+      return res.status(500).json({
+        status: false,
+        message: "Server error.",
+      });
+    }
+  };
 }
 
 module.exports = ModuleLessonController;
