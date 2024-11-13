@@ -240,6 +240,10 @@ class CourseController {
       }).populate({
         path: "lessons",
         match: { isDeleted: false },
+        populate: {
+          path: "lessonProgress",
+          match: { user: req.user?._id },
+        },
       });
 
       return res
