@@ -174,6 +174,7 @@ class ModuleLessonController {
         const newLessonProgress = new LessonProgress({
           moduleLesson: lessonID,
           user: req.user._id,
+          status: "playing",
         });
         await newLessonProgress.save();
       }
