@@ -50,7 +50,7 @@ ModuleLessonSchema.virtual("lessonProgress", {
   ref: "LessonProgress",
   localField: "_id",
   foreignField: "moduleLesson",
-  justOne: false,
+  justOne: true,
 });
 
 ModuleLessonSchema.set("toJSON", { virtuals: true });
