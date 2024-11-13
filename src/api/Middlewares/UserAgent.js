@@ -1,7 +1,7 @@
 const UAParser = require("ua-parser-js");
 const parser = new UAParser();
 
-const userAgent = (req, res, next) => {
+const userAgent = (req, _res, next) => {
   const userAgent = req.headers["user-agent"];
   const userIp = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
 

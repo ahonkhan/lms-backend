@@ -1,4 +1,5 @@
 const CourseModule = require("../Models/CourseModule");
+const LessonProgress = require("../Models/LessonProgress");
 const ModuleLesson = require("../Models/ModuleLesson");
 const Order = require("../Models/Order");
 
@@ -163,7 +164,19 @@ class ModuleLessonController {
           });
         }
       }
-
+      const lessonProgress = await LessonProgress.findOne({
+        moduleLesson: lessonID,
+      });
+      if (lessonProgress) {
+        lessonProgress.status = "playing";
+        await lessonProgress.save();
+      } else {
+        const newLessonProgress = new LessonProgress({
+          moduleLesson: lessonID,
+          user: req.user._id,
+        });
+        await newLessonProgress.save();
+      }
       return res.status(200).json({ status: true, lesson: lesson });
     } catch (error) {
       return res.status(500).json({

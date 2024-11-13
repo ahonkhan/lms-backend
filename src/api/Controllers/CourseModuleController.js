@@ -64,6 +64,10 @@ class CourseModuleController {
         path: "lessons",
         match: { isDeleted: false },
         select: "-video", // Exclude the 'video' field from the lessons
+        populate: {
+          path: "lessonProgress",
+          match: { user: req.user._id },
+        },
       });
 
       // Map through the courseModules to include additional fields
