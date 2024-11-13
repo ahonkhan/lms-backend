@@ -211,14 +211,20 @@ class ModuleLessonController {
         }
       }
 
-      const newLessonProgress = new LessonProgress({
+      const lessonProgress = await LessonProgress.findOne({
         moduleLesson: currentLesson,
-        user: req.user._id,
-        status: "completed",
       });
-      await newLessonProgress.save();
-
-
+      if (lessonProgress) {
+        lessonProgress.status = "completed";
+        await lessonProgress.save();
+      } else {
+        const newLessonProgress = new LessonProgress({
+          moduleLesson: currentLesson,
+          user: req.user._id,
+          status: "completed",
+        });
+        await newLessonProgress.save();
+      }
 
       return res.status(200).json({ status: true, lesson: lesson });
     } catch (error) {
