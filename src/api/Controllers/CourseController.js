@@ -243,6 +243,7 @@ class CourseController {
         populate: {
           path: "lessonProgress",
           match: { user: req.user?._id },
+          select: "+status",
         },
       });
 
